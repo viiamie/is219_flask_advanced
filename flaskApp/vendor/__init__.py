@@ -10,7 +10,7 @@ from werkzeug.exceptions import abort
 from flaskApp.auth import login_required
 from flaskApp.db import get_db
 
-bp = Blueprint("blog", __name__, template_folder='templates')
+bp = Blueprint("vendor", __name__, template_folder='templates')
 
 
 @bp.route("/")
@@ -22,7 +22,7 @@ def index():
         " FROM vendor v JOIN user u ON v.author_id = u.id"
         " ORDER BY created DESC"
     ).fetchall()
-    return render_template("blog/index.html", posts=posts)
+    return render_template("vendor/index.html", posts=posts)
 
 
 def get_post(id, check_author=True):
@@ -78,9 +78,9 @@ def create():
                 (title, body, g.user["id"]),
             )
             db.commit()
-            return redirect(url_for("blog.index"))
+            return redirect(url_for("vendor.index"))
 
-    return render_template("blog/create.html")
+    return render_template("vendor/create.html")
 
 
 @bp.route("/<int:id>/update", methods=("GET", "POST"))
@@ -105,9 +105,9 @@ def update(id):
                 "UPDATE vendor SET title = ?, body = ? WHERE id = ?", (title, body, id)
             )
             db.commit()
-            return redirect(url_for("blog.index"))
+            return redirect(url_for("vendor.index"))
 
-    return render_template("blog/update.html", post=post)
+    return render_template("vendor/update.html", post=post)
 
 
 @bp.route("/<int:id>/delete", methods=("POST",))
@@ -122,4 +122,4 @@ def delete(id):
     db = get_db()
     db.execute("DELETE FROM vendor WHERE id = ?", (id,))
     db.commit()
-    return redirect(url_for("blog.index"))
+    return redirect(url_for("vendor.index"))
