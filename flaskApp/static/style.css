@@ -1,6 +1,6 @@
 html {
   font-family: sans-serif;
-  background: #eee;
+  background: #E2D4B7;
   padding: 1rem;
 }
 
@@ -8,16 +8,17 @@ body {
   max-width: 960px;
   margin: 0 auto;
   background: white;
+  font-family: 'Questrial', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: serif;
-  color: #377ba8;
+  font-family: 'Questrial', sans-serif;
+  color: #000000;
   margin: 1rem 0;
 }
 
 a {
-  color: #377ba8;
+  color: #FFFFFF;
 }
 
 hr {
@@ -26,7 +27,7 @@ hr {
 }
 
 nav {
-  background: lightgray;
+  background: #774E24;
   display: flex;
   align-items: center;
   padding: 0 0.5rem;
