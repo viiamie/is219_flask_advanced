@@ -10,7 +10,7 @@ from werkzeug.exceptions import abort
 from flaskApp.auth import login_required
 from flaskApp.db import get_db
 
-bp = Blueprint("vendor", __name__, template_folder='templates')
+bp = Blueprint("blog", __name__, template_folder='templates')
 
 
 @bp.route("/")
@@ -22,15 +22,13 @@ def index():
         " FROM vendor v JOIN user u ON v.author_id = u.id"
         " ORDER BY created DESC"
     ).fetchall()
-    return render_template("vendor/index.html", posts=posts)
+    return render_template("blog/index.html", posts=posts)
 
 
 def get_post(id, check_author=True):
     """Get a post and its author by id.
-
     Checks that the id exists and optionally that the current user is
     the author.
-
     :param id: id of post to get
     :param check_author: require the current user to be the author
     :return: the post with author information
@@ -78,9 +76,9 @@ def create():
                 (title, body, g.user["id"]),
             )
             db.commit()
-            return redirect(url_for("vendor.index"))
+            return redirect(url_for("blog.index"))
 
-    return render_template("vendor/create.html")
+    return render_template("blog/create.html")
 
 
 @bp.route("/<int:id>/update", methods=("GET", "POST"))
@@ -105,16 +103,15 @@ def update(id):
                 "UPDATE vendor SET title = ?, body = ? WHERE id = ?", (title, body, id)
             )
             db.commit()
-            return redirect(url_for("vendor.index"))
+            return redirect(url_for("blog.index"))
 
-    return render_template("vendor/update.html", post=post)
+    return render_template("blog/update.html", post=post)
 
 
 @bp.route("/<int:id>/delete", methods=("POST",))
 @login_required
 def delete(id):
     """Delete a post.
-
     Ensures that the post exists and that the logged in user is the
     author of the post.
     """
@@ -122,4 +119,4 @@ def delete(id):
     db = get_db()
     db.execute("DELETE FROM vendor WHERE id = ?", (id,))
     db.commit()
-    return redirect(url_for("vendor.index"))
+    return redirect(url_for("blog.index"))
