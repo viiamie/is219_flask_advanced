@@ -46,7 +46,6 @@ def load_logged_in_user():
 @bp.route("/register", methods=("GET", "POST"))
 def register():
     """Register a new user.
-
     Validates that the username is not already taken. Hashes the
     password for security.
     """
